@@ -6,6 +6,10 @@ from django.views import generic
 
 from .models import Choice, Question
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 class IndexView(generic.ListView):
     template_name = 'polls/index.html'
@@ -38,6 +42,7 @@ class ResultsView(generic.DetailView):
 
 
 def vote(request, question_id):
+    logger.info(f"Vote received for question id: {question_id}!")
     question = get_object_or_404(Question, pk=question_id)
     try:
         selected_choice = question.choice_set.get(pk=request.POST['choice'])
